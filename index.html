@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kriminalistov Shop</title>
+    <style>
+        :root {
+            --dark: #0a0a12;
+            --space-blue: #0b0b2a;
+            --deep-blue: #15153d;
+            --accent: #00f7ff;
+            --accent-glow: rgba(0, 247, 255, 0.7);
+            --text: #e0e0e0;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Стили для иконок технологий */
+        .tech-icon {
+            font-size: 20px;
+            margin: 0 3px;
+            vertical-align: middle;
+        }
+
+        .python-icon {
+            color: #3776AB;
+        }
+
+        .html-icon {
+            color: #E34F26;
+        }
+
+        .css-icon {
+            color: #1572B6;
+        }
+
+        .js-icon {
+            color: #F7DF1E;
+        }
+
+        /* Иконки платежных систем */
+        .payment-icon {
+            font-size: 24px;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+
+        .sber-icon {
+            color: #21AE64;
+        }
+
+        .tinkoff-icon {
+            color: #FFDD2D;
+        }
+
+        .qiwi-icon {
+            color: #FF8C00;
+        }
+
+        .crypto-icon {
+            color: #F7931A;
+        }
+
+        .gift-icon {
+            color: #FF69B4;
+            animation: giftPulse 2s infinite;
+        }
+
+        @keyframes giftPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Космический фон со звездами */
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px white;
+            animation: shooting var(--shooting-duration) linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes shooting {
+            0% { transform: translateX(0) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(100vh); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        /* Шапка */
+        header {
+            padding: 30px 0;
+            margin-bottom: 50px;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(11, 11, 42, 0.9), transparent);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 15px var(--accent-glow);
+            letter-spacing: 2px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px var(--accent-glow); }
+            to { text-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(0, 247, 255, 0.4); }
+        }
+
+        .logo span {
+            color: var(--text-light);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Иконка Telegram в шапке */
+        .tg-icon {
+            font-size: 24px;
+            color: var(--text);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .tg-icon:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+            text-shadow: 0 0 10px var(--accent-glow);
+            background: rgba(0, 247, 255, 0.1);
+        }
+
+        /* Основной контент */
+        .main-content {
+            background: rgba(21, 21, 61, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 40px rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent, transparent, transparent,
+                var(--accent-glow), transparent
+            );
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .main-content:hover::before {
+            opacity: 0.1;
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-10%, -10%); }
+            100% { transform: rotate(30deg) translate(10%, 10%); }
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--accent-glow);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -10px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: titleUnderline 3s infinite;
+        }
+
+        @keyframes titleUnderline {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
+
+        /* Карточки услуг */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(10, 10, 30, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            border: 1px solid var(--deep-blue);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent);
+            animation: borderGlow 3s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; box-shadow: 0 0 15px var(--accent-glow); }
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 30px var(--accent-glow);
+            border-color: var(--accent);
+        }
+
+        .service-title {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-title i {
+            margin-right: 10px;
+            font-size: 28px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .price-tag {
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .service-features li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            transition: all 0.3s;
+        }
+
+        .service-features li:hover {
+            color: var(--text-light);
+            transform: translateX(5px);
+        }
+
+        .service-features li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .service-features li:hover::before {
+            transform: scale(1.5);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 247, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+
+        .btn:hover {
+            background: rgba(0, 247, 255, 0.1);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Контакты */
+        .contacts {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 50px;
+            border-top: 1px solid rgba(0, 247, 255, 0.3);
+        }
+
+        .contacts p {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .contact-link {
+            color: var(--accent);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .contact-link:hover {
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .contact-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Стили для блока оплаты */
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 247, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+        }
+
+        .payment-method i {
+            margin-right: 8px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 30px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Подключаем Devicon для иконок технологий -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+</head>
+<body>
+    <!-- Космический фон -->
+    <div class="space-background">
+        <div class="stars" id="stars"></div>
+        <div class="shooting-stars" id="shooting-stars"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">Kriminalistov<span> Shop</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                        <li><a href="https://t.me/kriminalistovv" target="_blank" class="tg-icon" title="Наш Telegram"><i class="fab fa-telegram"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h2 class="section-title" id="services">Наши Услуги</h2>
+
+            <div class="services-grid">
+                <!-- Поиск информации -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-search"></i> Поиск информации</h3>
+                    <span class="price-tag">5$</span>
+                    <ul class="service-features">
+                        <li>Полный анализ данных в открытых источниках</li>
+                        <li>CSINT, OSINT, GeoOSINT</li>
+                        <li>Проверка утечек в приватных базах</li>
+                        <li>Поиск по судебным актам и базам</li>
+                        <li>Проверка документов (водительские, дипломы)</li>
+                        <li>Нахождение задолженностей и штрафов</li>
+                    </ul>
+                </div>
+
+                <!-- Обучения -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-graduation-cap"></i> Обучения</h3>
+                    <span class="price-tag">до 5$</span>
+                    <ul class="service-features">
+                        <li>Обучение сносу сессий - 3$</li>
+                        <li>Обучение OSINT - 5$</li>
+                        <li>Обучение CSINT - 5$</li>
+                        <li>Анонимность - 3$</li>
+                    </ul>
+                </div>
+
+                <!-- Боты Telegram -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fab fa-telegram"></i> Боты Telegram</h3>
+                    <span class="price-tag">От 2$</span>
+                    <ul class="service-features">
+                        <li>Botnet — 5$ (без сессий)</li>
+                        <li>Garant Bot — 3$</li>
+                        <li>Price Bot — 3$</li>
+                        <li>Anonim Chat — 2$</li>
+                        <li>Support Bot — 2$</li>
+                        <li>Leak OSINT Bot — 5$</li>
+                        <li>Бот на заказ — 5$</li>
+                    </ul>
+                </div>
+
+                <!-- Тулы / Софт -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-tools"></i> Тулы / Софт</h3>
+                    <span class="price-tag">От 2$</span>
+                    <ul class="service-features">
+                        <li>Декодеры — 2$</li>
+                        <li>Генератор ворк почт — 2-3$</li>
+                        <li>Сносер 170к почт — 2-3$</li>
+                        <li>Конвертер сессий — 2$</li>
+                        <li>Тулка для поиска инфы — 2-3$</li>
+                        <li>Написать тулку/софт — 2-5$</li>
+                    </ul>
+                </div>
+
+                <!-- Услуги кодера -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-code"></i> Услуги кодера</h3>
+                    <span class="price-tag">500-1000р</span>
+                    <ul class="service-features">
+                        <li><i class="fab fa-html5 html-icon tech-icon"></i><i class="fab fa-css3-alt css-icon tech-icon"></i><i class="fab fa-js-square js-icon tech-icon"></i> Создание сайтов любой тематики</li>
+                        <li><i class="fab fa-telegram tech-icon"></i><i class="fab fa-python python-icon tech-icon"></i> Разработка Telegram ботов</li>
+                        <li>Тулки, софты, автоматизация</li>
+                        <li>Индивидуальные решения</li>
+                    </ul>
+                </div>
+
+                <!-- Защита и безопасность -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-shield-alt"></i> Деф</h3>
+                    <span class="price-tag">1000р</span>
+                    <ul class="service-features">
+                        <li>Полная защита в интернете</li>
+                        <li>Защита от доксеров и сватеров</li>
+                        <li>Бесплатный физ в подарок</li>
+                    </ul>
+                </div>
+
+                <!-- Fizz Shop -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-shopping-cart"></i> Fizz Shop</h3>
+                    <span class="price-tag">От 1$</span>
+                    <ul class="service-features">
+                        <li>Новорег — 1$</li>
+                        <li>Другие отлеги — договорная</li>
+                        <li>Физаки 2013-2025 цена договорная</li>
+                    </ul>
+                </div>
+
+                <!-- О нас -->
+                <div class="service-card">
+                    <h3 class="service-title"><i class="fas fa-info-circle"></i> О нас</h3>
+                    <span class="price-tag">Контакты</span>
+                    <ul class="service-features">
+                        <li>Наш телеграм канал в био</li>
+                        <li>Связь с нами @kriminalistovv</li>
+                        <li>Ответ 24/7</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contacts" id="contacts">
+                <h2 class="section-title">Контакты</h2>
+                <p>Свяжитесь с нами для заказа услуг или консультации</p>
+                <p>
+                    <a href="https://t.me/kriminalistovv" target="_blank" class="contact-link"><i class="fab fa-telegram"></i> @kriminalistovv</a>
+                    <a href="#" class="contact-link"><i class="fas fa-envelope"></i> Анонимная форма</a>
+                    <a href="https://t.me/Ziko_Rep" target="_blank" class="contact-link"><i class="fab fa-telegram"></i> Отзывы</a>
+                </p>
+                <p style="margin-top: 30px;">
+                    <strong>Оплата:</strong>
+                </p>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <i class="fas fa-credit-card payment-icon"></i>
+                        <span>Карты</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-university payment-icon sber-icon"></i>
+                        <span>Сбербанк</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-building payment-icon tinkoff-icon"></i>
+                        <span>Тинькофф</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-bitcoin payment-icon crypto-icon"></i>
+                        <span>Криптовалюта</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-gift payment-icon gift-icon"></i>
+                        <span>Подарки/Звёзды</span>
+                    </div>
+                </div>
+                <p style="margin-top: 20px;">
+                    <strong>Гарантия:</strong> Возврат средств если заказ не выполнен
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Создание звездного фона
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const shootingStarsContainer = document.getElementById('shooting-stars');
+            const starsCount = 300;
+            const shootingStarsCount = 5;
+
+            // Обычные звезды
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                const size = Math.random() * 3;
+                const duration = 5 + Math.random() * 10;
+                const delay = Math.random() * 5;
+
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+
+                starsContainer.appendChild(star);
+            }
+
+            // Падающие звезды
+            for (let i = 0; i < shootingStarsCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+
+                const size = 2 + Math.random() * 2;
+                const duration = 3 + Math.random() * 4;
+                const delay = Math.random() * 15;
+                const startX = Math.random() * 20;
+                const startY = Math.random() * 20;
+
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${startX}%`;
+                star.style.top = `${startY}%`;
+                star.style.setProperty('--shooting-duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+
+                shootingStarsContainer.appendChild(star);
+            }
+        }
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+
+            // Периодическое добавление новых падающих звезд
+            setInterval(() => {
+                const shootingStarsContainer = document.getElementById('shooting-stars');
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+
+                const size = 2 + Math.random() * 2;
+                const duration = 3 + Math.random() * 4;
+                const startX = Math.random() * 20;
+                const startY = Math.random() * 20;
+
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${startX}%`;
+                star.style.top = `${startY}%`;
+                star.style.setProperty('--shooting-duration', `${duration}s`);
+
+                shootingStarsContainer.appendChild(star);
+
+                // Удаление звезды после анимации
+                setTimeout(() => {
+                    star.remove();
+                }, duration * 1000);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
